@@ -1,0 +1,77 @@
+;
+; warzone-spoofer.inf
+;
+
+[Version]
+Signature="$WINDOWS NT$"
+Class=System ; TODO: specify appropriate Class
+ClassGuid={4d36e97d-e325-11ce-bfc1-08002be10318} ; TODO: specify appropriate ClassGuid
+Provider=%ManufacturerName%
+CatalogFile=warzone-spoofer.cat
+DriverVer= ; TODO: set DriverVer in stampinf property pages
+PnpLockdown=1
+
+[DestinationDirs]
+DefaultDestDir = 12
+warzone-spoofer_Device_CoInstaller_CopyFiles = 11
+
+[SourceDisksNames]
+1 = %DiskName%,,,""
+
+[SourceDisksFiles]
+warzone-spoofer.sys  = 1,,
+WdfCoInstaller$KMDFCOINSTALLERVERSION$.dll=1 ; make sure the number matches with SourceDisksNames
+
+;*****************************************
+; Install Section
+;*****************************************
+
+[Manufacturer]
+%ManufacturerName%=Standard,NT$ARCH$
+
+[Standard.NT$ARCH$]
+%warzone-spoofer.DeviceDesc%=warzone-spoofer_Device, Root\warzone-spoofer ; TODO: edit hw-id
+
+[warzone-spoofer_Device.NT]
+CopyFiles=Drivers_Dir
+
+[Drivers_Dir]
+warzone-spoofer.sys
+
+;-------------- Service installation
+[warzone-spoofer_Device.NT.Services]
+AddService = warzone-spoofer,%SPSVCINST_ASSOCSERVICE%, warzone-spoofer_Service_Inst
+
+; -------------- warzone-spoofer driver install sections
+[warzone-spoofer_Service_Inst]
+DisplayName    = %warzone-spoofer.SVCDESC%
+ServiceType    = 1               ; SERVICE_KERNEL_DRIVER
+StartType      = 3               ; SERVICE_DEMAND_START
+ErrorControl   = 1               ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\warzone-spoofer.sys
+
+;
+;--- warzone-spoofer_Device Coinstaller installation ------
+;
+
+[warzone-spoofer_Device.NT.CoInstallers]
+AddReg=warzone-spoofer_Device_CoInstaller_AddReg
+CopyFiles=warzone-spoofer_Device_CoInstaller_CopyFiles
+
+[warzone-spoofer_Device_CoInstaller_AddReg]
+HKR,,CoInstallers32,0x00010000, "WdfCoInstaller$KMDFCOINSTALLERVERSION$.dll,WdfCoInstaller"
+
+[warzone-spoofer_Device_CoInstaller_CopyFiles]
+WdfCoInstaller$KMDFCOINSTALLERVERSION$.dll
+
+[warzone-spoofer_Device.NT.Wdf]
+KmdfService =  warzone-spoofer, warzone-spoofer_wdfsect
+[warzone-spoofer_wdfsect]
+KmdfLibraryVersion = $KMDFVERSION$
+
+[Strings]
+SPSVCINST_ASSOCSERVICE= 0x00000002
+ManufacturerName="<Your manufacturer name>" ;TODO: Replace with your manufacturer name
+DiskName = "warzone-spoofer Installation Disk"
+warzone-spoofer.DeviceDesc = "warzone-spoofer Device"
+warzone-spoofer.SVCDESC = "warzone-spoofer Service"

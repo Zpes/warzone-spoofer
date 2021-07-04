@@ -2,6 +2,8 @@
 #include <ntifs.h>
 #include <ntdddisk.h>
 #include "defines.h"
+#include "utility.h"
+#include "struct.h"
 
 namespace hook_handler
 {

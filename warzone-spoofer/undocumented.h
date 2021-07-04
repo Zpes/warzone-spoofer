@@ -1,8 +1,5 @@
 #pragma once
-#include <ntifs.h>
-
-extern "C"
-NTKERNELAPI NTSTATUS ObReferenceObjectByName(IN PUNICODE_STRING ObjectName, IN ULONG Attributes, IN PACCESS_STATE PassedAccessState, IN ACCESS_MASK DesiredAccess, IN POBJECT_TYPE ObjectType, IN KPROCESSOR_MODE AccessMode, IN OUT PVOID ParseContext, OUT PVOID * Object);
+#include <windef.h>
 
 typedef struct _SYSTEM_MODULE
 {

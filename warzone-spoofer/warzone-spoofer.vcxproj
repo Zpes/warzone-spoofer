@@ -198,6 +198,7 @@
     <ClInclude Include="defines.h" />
     <ClInclude Include="driver.h" />
     <ClInclude Include="hook_handler.h" />
+    <ClInclude Include="struct.h" />
     <ClInclude Include="undocumented.h" />
     <ClInclude Include="utility.h" />
   </ItemGroup>
